@@ -18,7 +18,9 @@ const getRow = (firstRow, secondRow, letter) => {
     }
     
 }
+
 const firstRow = prompt('Enter the first line'),
       secondRow = prompt('Enter the second line'),
       letter = prompt('Enter the letter');
+
 getRow(firstRow, secondRow, letter);
