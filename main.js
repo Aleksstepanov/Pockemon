@@ -1,51 +1,66 @@
-const $btn = document.getElementById('btn-kick');
-const character = {
-    name: 'Pickachu',
-    defaultHP: 100,
-    damageHP: 100,
-    elHP: document.getElementById('health-character'),
-    elProgressBar: document.getElementById('progressbar-character'),
+class Pockemon {
+    constructor(person) {
+        this.name = person.name,
+        this.defaultHP = person.defaultHP,
+        this.damageHP = person.damageHP,
+        this.elHP = person.elHP,
+        this.elProgressBar = person.elProgressBar,
+        this.$btnDamage = person.$btnDamage;
+    }
+    renderHPLife() {
+        this.elHP.innerText = this.damageHP + '/' + this.defaultHP;
+    }
+    renderProgressBar() {
+        this.elProgressBar.style.width = this.damageHP + '%';
+    }
+    renderHP() {
+        this.renderHPLife();
+        this.renderProgressBar();
+    }
+    changeHP (count) {
+        const endGame = () => {
+            this.damageHP = 0;
+            alert(`Бедный ${this.name} проиграл!`);
+            $btnDamage.disabled = true;
+        }
+        this.damageHP < count ? endGame() : this.damageHP -= count;
+        this.renderHP();
+    }
+    random = (num) => {
+        return Math.ceil(Math.random() * num);
+    }
+    damageClick = () => {
+        console.log('damage');
+        this.changeHP(this.random(20));
+    }
 }
 
-const enemy = {
-    name: 'Charmander',
-    defaultHP: 100,
-    damageHP: 100,
-    elHP: document.getElementById('health-enemy'),
-    elProgressBar: document.getElementById('progressbar-enemy'),
-}
-const random = (num) => {
-    return Math.ceil(Math.random() * num);
-}
 const 
-    renderHPLife = (person) => {
-        person.elHP.innerText = person.damageHP + '/' + person.defaultHP;
-    },
-    renderProgressBar = (person) => {
-        person.elProgressBar.style.width = person.damageHP + '%';
-    },
-    renderHP = (person) => {
-        renderHPLife(person);
-        renderProgressBar(person);
-    },
-    changeHP = (count, person) => {
-        const endGame = () => {
-            person.damageHP = 0;
-            alert(`Бедный ${person.name} проиграл!`);
-            $btn.disabled = true;
-        }
-        person.damageHP < count ? endGame() : person.damageHP -= count;
-        renderHP(person);
-    },
-    init = () => {
-        console.log('Start game!');
-        renderHP(character);
-        renderHP(enemy);
-    }
+    character = new Pockemon ({
+        name: 'Pickachu',
+        defaultHP: 100,
+        damageHP: 100,
+        elHP: document.getElementById('health-character'),
+        elProgressBar: document.getElementById('progressbar-character'),
+        $btnDamage: document.getElementById('btn-kick-player')
+    }),
+    enemy = new Pockemon ({
+        name: 'Charmander',
+        defaultHP: 100,
+        damageHP: 100,
+        elHP: document.getElementById('health-enemy'),
+        elProgressBar: document.getElementById('progressbar-enemy'),
+        $btnDamage: document.getElementById('btn-kick-enemy')
+    });
+
+
+const init = () => {
+    console.log('Start Game!');
+    character.renderHP();
+    enemy.renderHP();
+}
+
 
 init();
-
-$btn.addEventListener('click', () => {
-    changeHP(random(20), character);
-    changeHP(random(20), enemy);
-})
+character.$btnDamage.addEventListener('click', enemy.damageClick);
+enemy.$btnDamage.addEventListener('click', character.damageClick)
