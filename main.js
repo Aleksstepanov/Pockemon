@@ -21,16 +21,13 @@ class Pockemon {
         const endGame = () => {
             this.damageHP = 0;
             alert(`Бедный ${this.name} проиграл!`);
-            $btnDamage.disabled = true;
+            Object.values(document.querySelectorAll('.button')).forEach(elem => elem.disabled = true);
         }
         this.damageHP < count ? endGame() : this.damageHP -= count;
         this.renderHP();
     }
-    random = (num) => {
-        return Math.ceil(Math.random() * num);
-    }
+    random = (num) => Math.ceil(Math.random() * num);
     damageClick = () => {
-        console.log('damage');
         this.changeHP(this.random(20));
     }
 }
@@ -62,5 +59,7 @@ const init = () => {
 
 
 init();
-character.$btnDamage.addEventListener('click', enemy.damageClick);
+character.$btnDamage.addEventListener('click', () => {
+    enemy.damageClick();
+});
 enemy.$btnDamage.addEventListener('click', character.damageClick)
