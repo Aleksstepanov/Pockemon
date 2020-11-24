@@ -62,12 +62,4 @@ init();
 character.$btnDamage.addEventListener('click', () => {
     enemy.damageClick();
 });
-<<<<<<< HEAD
 enemy.$btnDamage.addEventListener('click', character.damageClick)
-=======
-enemy.$btnDamage.addEventListener('click', () => {
-    const {name} = enemy.name
-    character.damageClick(name);
-})
-
->>>>>>> homework-3
