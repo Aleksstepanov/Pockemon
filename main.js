@@ -17,13 +17,18 @@ class Pockemon {
         this.renderHPLife();
         this.renderProgressBar();
     }
+<<<<<<< HEAD
     changeHP (count, person) {
+=======
+    changeHP (count) {
+>>>>>>> 00a0313a1b72012d4c760e140220b285970f0396
         const endGame = () => {
             this.damageHP = 0;
             alert(`Бедный ${this.name} проиграл!`);
             Object.values(document.querySelectorAll('.button')).forEach(elem => elem.disabled = true);
         }
         this.damageHP < count ? endGame() : this.damageHP -= count;
+<<<<<<< HEAD
 
         this.appendLog(this.generateLog(person, count));
         
@@ -54,6 +59,13 @@ class Pockemon {
             `${this.name} пытался что-то сказать, но вдруг, неожиданно ${person} со скуки, разбил бровь сопернику. -${count}, [${this.damageHP}/${this.defaultHP}]`
         ];
         return logs[this.random(logs.length) - 1]
+=======
+        this.renderHP();
+    }
+    random = (num) => Math.ceil(Math.random() * num);
+    damageClick = () => {
+        this.changeHP(this.random(20));
+>>>>>>> 00a0313a1b72012d4c760e140220b285970f0396
     }
 }
 
@@ -85,6 +97,7 @@ const init = () => {
 
 init();
 character.$btnDamage.addEventListener('click', () => {
+<<<<<<< HEAD
     const {name} = character.name;
     enemy.damageClick(name);
 });
@@ -93,3 +106,8 @@ enemy.$btnDamage.addEventListener('click', () => {
     character.damageClick(name);
 })
 
+=======
+    enemy.damageClick();
+});
+enemy.$btnDamage.addEventListener('click', character.damageClick)
+>>>>>>> 00a0313a1b72012d4c760e140220b285970f0396
