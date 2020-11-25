@@ -67,6 +67,7 @@ body {
     display: flex;
     justify-content: space-between;
 }
+<<<<<<< HEAD
 .log {
     width: 60%;
     height: 100%;
@@ -75,6 +76,8 @@ body {
     max-height: 300px;
     overflow-y: auto;
 }
+=======
+>>>>>>> 00a0313a1b72012d4c760e140220b285970f0396
 .arrow {
     position: absolute;
     left: 0;
