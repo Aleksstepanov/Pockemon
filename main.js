@@ -79,48 +79,43 @@ const
     });
 
 
-    const init = () => {
-        console.log('Start Game!');
-        character.renderHP();
-        enemy.renderHP();
-        character.$btnDamage.innerText = character.$btnDamage.innerText + ' /' + character.click; 
-        enemy.$btnDamage.innerText = enemy.$btnDamage.innerText + ' /' + enemy.click;
+const init = () => {
+    console.log('Start Game!');
+    character.renderHP();
+    enemy.renderHP();
+}
+
+function makeCounter() {
+    let count = 0;
+    return function() {
+      return count++;
+    };
+  }
+  
+const counterCharacter = makeCounter(),
+      counterEnemy = makeCounter();
+init();
+character.$btnDamage.addEventListener('click', () => {
+    const {name} = character.name,
+          {click} = character;
+    if (click === counterCharacter()) {
+        Object.values(document.querySelectorAll('.button')).forEach(elem => elem.disabled = true);
+        alert('End Game!')
     }
-    
-    function makeCounter() {
-        let count = 0;
-        return function() {
-          return count++;
-        };
-      }
-      
-    const counterCharacter = makeCounter(),
-          counterEnemy = makeCounter();
-    
-    init();
-    character.$btnDamage.addEventListener('click', () => {
-        const {name} = character.name,
-              {click} = character;
-        if (click === counterCharacter) {
+    else {
+        character.$btnDamage.innerText = character.$btnDamage.innerText.split('/')[0] + '/' + (click - counterCharacter());
+        enemy.damageClick(name);
+    }
+});
+enemy.$btnDamage.addEventListener('click', () => {
+    const {name} = enemy.name,
+          {click} = character;
+    if (click === counterEnemy()) {
             Object.values(document.querySelectorAll('.button')).forEach(elem => elem.disabled = true);
             alert('End Game!')
         }
         else {
-            character.$btnDamage.innerText = character.$btnDamage.innerText.split('/')[0] + '/' + (click - counterCharacter());
+            enemy.$btnDamage.innerText = enemy.$btnDamage.innerText.split('/')[0] + '/' + (click - counterEnemy());
             enemy.damageClick(name);
         }
-    });
-    enemy.$btnDamage.addEventListener('click', () => {
-        const {name} = enemy.name,
-              {click} = enemy;
-        if (click === counterCharacter) {
-            Object.values(document.querySelectorAll('.button')).forEach(elem => elem.disabled = true);
-            alert('End Game!')
-        }
-        else {
-            enemy.$btnDamage.innerText = enemy.$btnDamage.innerText.split('/')[0] + '/'  + (click - counterEnemy());
-            character.damageClick(name);
-        }
-         
-    })
-    
+})
