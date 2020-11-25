@@ -85,11 +85,22 @@ const init = () => {
 
 init();
 character.$btnDamage.addEventListener('click', () => {
-    const {name} = character.name;
-    enemy.damageClick(name);
+    const {name} = character.name,
+          {click} = character;
+    if (click === counterCharacter) {
+        Object.values(document.querySelectorAll('.button')).forEach(elem => elem.disabled = true);
+        alert('End Game!')
+    }
+    else {
+        character.$btnDamage.innerText = character.$btnDamage.innerText.split('/')[0] + '/' + (click - counterCharacter());
+        enemy.damageClick(name);
+    }
 });
 enemy.$btnDamage.addEventListener('click', () => {
     const {name} = enemy.name
     character.damageClick(name);
 })
+<<<<<<< HEAD
 
+=======
+>>>>>>> homework-4
