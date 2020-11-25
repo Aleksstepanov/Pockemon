@@ -74,7 +74,6 @@ const counterCharacter = makeCounter(),
 
 init();
 character.$btnDamage.addEventListener('click', () => {
-<<<<<<< HEAD
     const {name} = character.name,
           {click} = character;
     if (click === counterCharacter) {
@@ -99,8 +98,3 @@ enemy.$btnDamage.addEventListener('click', () => {
     }
      
 })
-=======
-    enemy.damageClick();
-});
-enemy.$btnDamage.addEventListener('click', character.damageClick)
->>>>>>> main
