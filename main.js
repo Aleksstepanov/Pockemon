@@ -82,7 +82,15 @@ const init = () => {
     enemy.renderHP();
 }
 
-
+function makeCounter() {
+    let count = 0;
+    return function() {
+      return count++;
+    };
+  }
+  
+const counterCharacter = makeCounter(),
+      counterEnemy = makeCounter();
 init();
 character.$btnDamage.addEventListener('click', () => {
     const {name} = character.name,
