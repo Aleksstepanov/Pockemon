@@ -16,7 +16,7 @@ export default class Pokemon extends Selectors {
         this.$el.innerText = this.damageHP + '/' + this.defaultHP;
     }
     renderProgressBar = () => {
-        this.$elProgressBar.style.width = this.damageHP + '%';
+        this.$elProgressBar.style.width = (this.damageHP/this.defaultHP * 100) + '%';
     }
     renderHP = () => {
         this.renderHPLife();
@@ -47,7 +47,7 @@ export default class Pokemon extends Selectors {
         $LOGS.prepend($newLog);
     }
     damageClick = (person) => {
-        this.changeHP(random(40, 10), person);
+        this.changeHP(random(60, 10), person);
     }
     
 }

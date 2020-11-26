@@ -27,8 +27,9 @@ function makeCounter() {
 const counterCharacter = makeCounter(),
       counterEnemy = makeCounter();
 
-character.$btnDamage.addEventListener('click', () => {
-    const {name, click} = character;
+document.querySelector('.control').addEventListener('click', (event) => {
+    if (event.target === character.$btnDamage) {
+        const {name, click} = character;
     
     if (click === counterCharacter()) {
         Object.values(document.querySelectorAll('.button')).forEach(elem => elem.disabled = true);
@@ -38,9 +39,10 @@ character.$btnDamage.addEventListener('click', () => {
         character.$btnDamage.innerText = character.$btnDamage.innerText.split('/')[0] + '/' + (click - counterCharacter());
         enemy.changeHP(random(60, 20), name);
     }
-});
-enemy.$btnDamage.addEventListener('click', () => {
-    const {name, click} = enemy;
+    }
+    else 
+    if (event.target === enemy.$btnDamage) {
+        const {name, click} = enemy;
     
     if (click === counterEnemy()) {
             Object.values(document.querySelectorAll('.button')).forEach(elem => elem.disabled = true);
@@ -50,4 +52,5 @@ enemy.$btnDamage.addEventListener('click', () => {
             enemy.$btnDamage.innerText = enemy.$btnDamage.innerText.split('/')[0] + '/' + (click - counterEnemy());
             character.changeHP(random(60, 20), name);
         }
+    }
 })
