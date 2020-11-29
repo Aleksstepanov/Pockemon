@@ -1,5 +1,5 @@
 import Selectors from './Selectors.js';
-import {random} from './random.js';
+import {random} from './utils.js';
 import {generateLog} from './generateLog.js';
 
 export default class Pokemon extends Selectors {

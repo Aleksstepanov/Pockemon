@@ -1,5 +1,5 @@
 import Pokemon from './module/Pokemon.js';
-import {random} from './module/random.js';
+import {random, makeCounter} from './module/utils.js';
 
 const 
     character = new Pokemon ({
@@ -17,13 +17,6 @@ const
         click: 8,
     });
 
-function makeCounter() {
-    let count = 0;
-    return function() {
-      return count++;
-    };
-  }
-  
 const counterCharacter = makeCounter(),
       counterEnemy = makeCounter();
 

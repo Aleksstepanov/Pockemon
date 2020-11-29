@@ -1,4 +1,4 @@
-import {random} from './random.js'
+import {random} from './utils.js'
 export const generateLog = ({name, damageHP, defaultHP}, person, count) => {
     const logs = [
         `${name} вспомнил что-то важное, но неожиданно ${person}, не помня себя от испуга, ударил в предплечье врага. -${count}, [${damageHP}/${defaultHP}]`,
