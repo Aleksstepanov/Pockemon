@@ -72,3 +72,9 @@ export const visibleBlock = (elem) => {
     }
 
 }
+
+export const removeElem = (elem) => {
+    while (elem.firstChild) {
+        elem.removeChild(elem.firstChild);
+    }
+}

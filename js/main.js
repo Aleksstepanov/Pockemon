@@ -1,5 +1,5 @@
 import Pokemon from './module/Pokemon.js';
-import {random, makeCounter, renderElem, visibleBlock} from './module/utils.js';
+import {random, makeCounter, renderElem, visibleBlock, removeElem} from './module/utils.js';
 import {selectors} from './module/selectors.js'
 import {pokemons} from './pokemons.js';
 
@@ -17,6 +17,7 @@ const counterCharacter1 = makeCounter(),
       
       init = () => {
         visibleBlock(start);
+        removeElem(start);
         renderElem('pokemon_start', 'button', 'Start', {class: ['button', 'start']});
         document.querySelector('.start').addEventListener('click', () => {
             selectPokemon();
@@ -25,6 +26,7 @@ const counterCharacter1 = makeCounter(),
 
       selectPokemon = () => {
         visibleBlock(select);
+        removeElem(select);
         pokemons.forEach(elem => {
             renderElem('pokemon_select', 'div', null, {class: ['pokemon', `${elem.name}`]})
             renderElem(`${elem.name}`, 'img', null, {class: ['sprite', 'pokemon_select_img', `${elem.name}`], src: elem.img, id: elem.name, name: 'pokemon'});
@@ -99,6 +101,7 @@ const counterCharacter1 = makeCounter(),
     document.querySelector('.control').addEventListener('click', (event) => {
       const onClick = (person1, person2, cb, elem) => {
         const {name, attacks} = person1;
+        cb();
         const count = elem.innerText.split('/')[1] - 1;
         if (count < 0) {
             elem.disabled = true;
@@ -131,13 +134,13 @@ const counterCharacter1 = makeCounter(),
          onClick(enemy, character, counterEnemy1, event.target);
         }
         if (event.target.classList.contains('1')) {
-             onClick(enemy, character, counterEnemy1, event.target);
+             onClick(enemy, character, counterEnemy2, event.target);
          }
          if (event.target.classList.contains('2')) {
-             onClick(enemy, character, counterEnemy1, event.target);
+             onClick(enemy, character, counterEnemy3, event.target);
          }
          if (event.target.classList.contains('3')) {
-             onClick(enemy, character, counterEnemy1, event.target);
+             onClick(enemy, character, counterEnemy4, event.target);
          }
     }
         
@@ -145,5 +148,7 @@ const counterCharacter1 = makeCounter(),
       };
 
 
-init ()
+init ();
 
+document.querySelector('.reset').addEventListener('click', () => selectPokemon());
+document.querySelector('.exit').addEventListener('click', () => init());

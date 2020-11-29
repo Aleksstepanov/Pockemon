@@ -21,6 +21,15 @@ body {
     user-select: none;
 }
 
+.header__control {
+    display: flex;
+    justify-content: center;
+}
+
+.header__control button {
+    max-width: 100px;
+}
+
 .catch_screen {
     width: 100vw;
     height: 100vh;
