@@ -5,8 +5,14 @@ import {pokemons} from './pokemons.js';
 
 
 
-const counterCharacter = makeCounter(),
-      counterEnemy = makeCounter(),
+const counterCharacter1 = makeCounter(), 
+      counterCharacter2 = makeCounter(),
+      counterCharacter3 = makeCounter(),
+      counterCharacter4 = makeCounter(),
+      counterEnemy1 = makeCounter(),
+      counterEnemy2 = makeCounter(),
+      counterEnemy3 = makeCounter(),
+      counterEnemy4 = makeCounter(),
       {start, select, battle} = selectors,
       
       init = () => {
@@ -58,8 +64,8 @@ const counterCharacter = makeCounter(),
             },
             renderControl = (person, type) => {
                 const {attacks} = person;
-                attacks.forEach(elem => {
-                    renderElem(`${type}-control`, 'button', `${elem.name} (${elem.maxCount})`, {class: ['button', 'damage'], name: `${elem.name}`});
+                attacks.forEach((elem, index) => {
+                    renderElem(`${type}-control`, 'button', `${elem.name} ${elem.maxCount}/${elem.maxCount}`, {class: ['button', 'damage', `button-${type}`, `${index}`], name: `${elem.name}`});
                 })
             };
         
@@ -87,35 +93,54 @@ const counterCharacter = makeCounter(),
             damageHP: person2.hp,
             selector: 'enemy',
             type: person2.type,
-            attacks: person.attacks,
+            attacks: person2.attacks,
         });
 
     document.querySelector('.control').addEventListener('click', (event) => {
-        // const onClick = (person1, person2, cb) => {
-        //     const {name, click} = person1;
-        //     if (click === cb()) {
-        //         Object.values(document.querySelectorAll('.button')).forEach(elem => elem.disabled = true);
-        //         alert('End Game!')
-        //     }
-        //     else {
-        //         person1.$btnDamage.innerText = person1.$btnDamage.innerText.split('/')[0] + '/' + (click - cb());
-        //         person2.changeHP(random(60, 20), name);
-        //     }
-        // }
-        // if (event.target === character.$btnDamage) {
-        //     onClick(character, enemy, counterCharacter);
+      const onClick = (person1, person2, cb, elem) => {
+        const {name, attacks} = person1;
+        const count = elem.innerText.split('/')[1] - 1;
+        if (count < 0) {
+            elem.disabled = true;
+        }
+        else {
+            elem.innerText = elem.innerText.split('/')[0] + '/' + count;
+            const atack = attacks.find(item => item.name === elem.name);
+            person2.changeHP(random(atack.maxDamage, atack.minDamage), name);
+        }
+             
+       };
             
-        // }
-        // else 
-        // if (event.target === enemy.$btnDamage) {
-        //     onClick(enemy, character, counterEnemy);
-            
-        // }
-       const onClick = (person1, person2, cb) => {
-           
+       if (event.target.classList.contains('button-player')) {
+           if (event.target.classList.contains('0')) {
+            onClick(character, enemy, counterCharacter1, event.target);
+           }
+           if (event.target.classList.contains('1')) {
+                onClick(character, enemy, counterCharacter2, event.target);
+            }
+            if (event.target.classList.contains('2')) {
+                onClick(character, enemy, counterCharacter3, event.target);
+            }
+            if (event.target.classList.contains('3')) {
+                onClick(character, enemy, counterCharacter4, event.target);
+            }
        }
-        console.log(event.target);
-        console.log(counterCharacter());
+
+       if (event.target.classList.contains('button-enemy')) {
+        if (event.target.classList.contains('0')) {
+         onClick(enemy, character, counterEnemy1, event.target);
+        }
+        if (event.target.classList.contains('1')) {
+             onClick(enemy, character, counterEnemy1, event.target);
+         }
+         if (event.target.classList.contains('2')) {
+             onClick(enemy, character, counterEnemy1, event.target);
+         }
+         if (event.target.classList.contains('3')) {
+             onClick(enemy, character, counterEnemy1, event.target);
+         }
+    }
+        
     })
       };
 
