@@ -47,12 +47,14 @@ body {
     width: 100%;
     display: flex;
     justify-content: flex-start;
+    flex-wrap: wrap;
 }
 
 .enemy-control {
     width: 100%;
     display: flex;
     justify-content: flex-end;
+    flex-wrap: wrap;
 }
 
 .playground {
@@ -63,9 +65,31 @@ body {
     margin: 30px auto;
 }
 
-.pockemon {
+.pokemon_start {
+    justify-content: center;
+}
+
+.pokemon__battle {
+    display: none;
+    flex-direction: column;
+}
+
+.pokemon_wrapper {
     display: flex;
     justify-content: space-between;
+}
+
+.pokemon img:hover {
+    border: 3px solid #3a7999;
+    color: #3a7999;
+    background: rgba(0,0,0,0);
+    cursor: pointer;
+}
+
+.selected {
+    border: 3px dotted #3a7999;
+    color: #3a7999;
+    background: rgba(0,0,0,0);
 }
 .log {
     width: 60%;
@@ -74,6 +98,10 @@ body {
     opacity: 0.4;
     max-height: 300px;
     overflow-y: auto;
+}
+.player-control .enemy-control {
+    border: 1px solid black;
+    
 }
 .arrow {
     position: absolute;
@@ -300,7 +328,9 @@ body {
     outline: none !important;
     cursor: pointer;
     font-size: 18px;
-
+    width: 60%;
+    margin-left: 20px;
+    margin-bottom: 10px;
 }
 .button:after {
     content: "";

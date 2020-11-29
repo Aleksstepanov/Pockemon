@@ -1,6 +1,13 @@
-import Selectors from './Selectors.js';
-import {random} from './utils.js';
-import {generateLog} from './generateLog.js';
+import {random, generateLog} from './utils.js';
+//import {generateLog} from './generateLog.js';
+
+class Selectors{
+    constructor(name) {
+        this.$el = document.getElementById(`health-${name}`),
+        this.$elProgressBar = document.getElementById(`progressbar-${name}`),
+        this.$btnDamage = document.getElementById(`btn-kick-${name}`)
+    }
+}
 
 export default class Pokemon extends Selectors {
     constructor(props) {
@@ -9,7 +16,7 @@ export default class Pokemon extends Selectors {
         this.type = props.type,
         this.defaultHP = props.defaultHP,
         this.damageHP = props.damageHP,
-        this.click = props.click,
+        this.attacks = props.attacks,
         this.renderHP();
     }
     renderHPLife = () => {
