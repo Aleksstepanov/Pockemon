@@ -80,7 +80,6 @@ const counterCharacter1 = makeCounter(),
             renderElem('control', 'div', null, {class: ['enemy-control']});
             renderControl(player2, 'enemy');
             
-            
                 // then(res => {
                 //     renderElem('pokemon_wrapper', 'div', null, {class: ['log']});
                 //     return res;
@@ -182,55 +181,55 @@ const counterCharacter1 = makeCounter(),
     //         attacks: person2.attacks,
     //     });
 
-    // document.querySelector('.control').addEventListener('click', (event) => {
-    //   const onClick = (person1, person2, cb, elem) => {
-    //     const {name, attacks} = person1;
-    //     cb();
-    //     const count = elem.innerText.split('/')[1] - 1;
-    //     if (count < 0) {
-    //         elem.disabled = true;
-    //     }
-    //     else {
-    //         elem.innerText = elem.innerText.split('/')[0] + '/' + count;
-    //         const atack = attacks.find(item => item.name === elem.name);
-    //         person2.changeHP(random(atack.maxDamage, atack.minDamage), name);
-    //     }
-             
-    //    };
-            
-    //    if (event.target.classList.contains('button-player')) {
-    //        if (event.target.classList.contains('0')) {
-    //         onClick(character, enemy, counterCharacter1, event.target);
-    //        }
-    //        if (event.target.classList.contains('1')) {
-    //             onClick(character, enemy, counterCharacter2, event.target);
-    //         }
-    //         if (event.target.classList.contains('2')) {
-    //             onClick(character, enemy, counterCharacter3, event.target);
-    //         }
-    //         if (event.target.classList.contains('3')) {
-    //             onClick(character, enemy, counterCharacter4, event.target);
-    //         }
-    //    }
-
-    //    if (event.target.classList.contains('button-enemy')) {
-    //     if (event.target.classList.contains('0')) {
-    //      onClick(enemy, character, counterEnemy1, event.target);
-    //     }
-    //     if (event.target.classList.contains('1')) {
-    //          onClick(enemy, character, counterEnemy2, event.target);
-    //      }
-    //      if (event.target.classList.contains('2')) {
-    //          onClick(enemy, character, counterEnemy3, event.target);
-    //      }
-    //      if (event.target.classList.contains('3')) {
-    //          onClick(enemy, character, counterEnemy4, event.target);
-    //      }
-    //     }
-        
-    // })
-    
+    document.querySelector('.control').addEventListener('click', (event) => {
+      const onClick = (person1, person2, cb, elem) => {
+        const {name, attacks} = person1;
+        cb();
+        const count = elem.innerText.split('/')[1] - 1;
+        if (count < 0) {
+            elem.disabled = true;
         }
+        else {
+            elem.innerText = elem.innerText.split('/')[0] + '/' + count;
+            const atack = attacks.find(item => item.name === elem.name);
+            person2.changeHP(random(atack.maxDamage, atack.minDamage), name);
+        }
+             
+       };
+            
+       if (event.target.classList.contains('button-player')) {
+           if (event.target.classList.contains('0')) {
+            onClick(player1, player2, counterCharacter1, event.target);
+           }
+           if (event.target.classList.contains('1')) {
+                onClick(player1, player2, counterCharacter2, event.target);
+            }
+            if (event.target.classList.contains('2')) {
+                onClick(player1, player2, counterCharacter3, event.target);
+            }
+            if (event.target.classList.contains('3')) {
+                onClick(player1, player2, counterCharacter4, event.target);
+            }
+       }
+
+       if (event.target.classList.contains('button-enemy')) {
+        if (event.target.classList.contains('0')) {
+         onClick(player2, player1, counterEnemy1, event.target);
+        }
+        if (event.target.classList.contains('1')) {
+             onClick(player2, player1, counterEnemy2, event.target);
+         }
+         if (event.target.classList.contains('2')) {
+             onClick(player2, player1, counterEnemy3, event.target);
+         }
+         if (event.target.classList.contains('3')) {
+             onClick(player2, player1, counterEnemy4, event.target);
+         }
+        }
+        
+    })
+    
+        }       
 
 init ();
 
