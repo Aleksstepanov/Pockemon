@@ -1,8 +1,9 @@
 import Pokemon from './module/Pokemon.js';
-import {random, makeCounter, renderElem, visibleBlock, removeElem} from './module/utils.js';
+//import {random, makeCounter, renderElem, visibleBlock, removeElem} from './module/utils.js';
 import {selectors} from './module/selectors.js';
 import Game from './module/Game.js';
 import {url} from './module/api.js';
+import Data from './module/Data.js';
 
 
 const counterCharacter1 = makeCounter(), 
@@ -57,6 +58,7 @@ const counterCharacter1 = makeCounter(),
       pokemonBatle = (id) => {
         //removeElem(battle);
         visibleBlock(battle);
+        
         const renderPokemon = (person, type) => {
                 renderElem(`pokemon_wrapper`, 'div', null, {class: ['pokemon', `${type}`]});
                 renderElem(`${type}`, 'span', 'Lv. 1', {class: ['lvl']});
@@ -68,27 +70,32 @@ const counterCharacter1 = makeCounter(),
                 renderElem(`bar_${type}`, 'div', null, {class: ['health', `health_${type}`], id: `progressbar-${type}`});
                 renderElem(`hp_${type}`, 'span', `${person.hp}`, {class: ['text', `text_${type}`], id: `health-${type}`})
             },
-            renderControl = (person, type) => {
+        renderControl = (person, type) => {
                 const {attacks} = person;
                 attacks.forEach((elem, index) => {
                     renderElem(`${type}-control`, 'button', `${elem.name} ${elem.maxCount}/${elem.maxCount}`, {class: ['button', 'damage', `button-${type}`, `${index}`], name: `${elem.name}`});
                 })
             },
-            getPlayer1 = async () => {
-                const res = await fetch(`${url}?id=${id}`),
-                      player1 = await res.json();
-                renderPokemon(player1, 'character');
-                const character = new Pokemon ({
-                            name: player1.name,
-                            defaultHP: player1.hp,
-                            damageHP: player1.hp,
-                            selector: 'character',
-                            type: player1.type,
-                            id: player1.id,
-                            attacks: player1.attacks,
-                });
-                return character;
-            },
+            // getPlayer1 = async () => {
+            //     const res = await fetch(`${url}?id=${id}`),
+            //           player1 = await res.json();
+            //     renderPokemon(player1, 'character');
+            //     const character = new Pokemon ({
+            //                 name: player1.name,
+            //                 defaultHP: player1.hp,
+            //                 damageHP: player1.hp,
+            //                 selector: 'character',
+            //                 type: player1.type,
+            //                 id: player1.id,
+            //                 attacks: player1.attacks,
+            //     });
+            //     return character;
+            // },
+            getPlayer1 = new Data({
+                url: url,
+                query: `id=${id}`,
+                typePlayer: 'character'
+            }),
             getPlayer2 = async () => {
                 const res = await fetch(`${url}?random=true`),
                       player2 = await res.json();
