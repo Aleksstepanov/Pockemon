@@ -21,4 +21,10 @@ export default class Data {
             attacks: data.attacks,
         })
     }
+    getFire = async (idPlayer1, idPlayer2, idAttack) => {
+        const res = await fetch(`https://reactmarathon-api.netlify.app/api/fight?player1id=${idPlayer1}&attackId=${idAttack}&player2id=${idPlayer2}`),
+              kick = await res.json();
+        console.log(kick);
+        return kick;
+    }
 }
