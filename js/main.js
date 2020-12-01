@@ -1,8 +1,8 @@
 import Pokemon from './module/Pokemon.js';
 import {random, makeCounter, renderElem, visibleBlock, removeElem} from './module/utils.js';
 import {selectors} from './module/selectors.js'
-import {pokemons} from './pokemons.js';
-
+//import {pokemons} from './pokemons.js';
+import {url} from './module/api.js';
 
 
 const counterCharacter1 = makeCounter(), 
@@ -20,7 +20,12 @@ const counterCharacter1 = makeCounter(),
         removeElem(start);
         renderElem('pokemon_start', 'button', 'Start', {class: ['button', 'start']});
         document.querySelector('.start').addEventListener('click', () => {
-            selectPokemon();
+           fetch(url).then(res => res.json()).then(res => {
+               const pokemons = res;
+               console.log(pokemons);
+           }).then(() => selectPokemon());
+            //pok();
+            //selectPokemon();
         })
       },
 
@@ -51,6 +56,7 @@ const counterCharacter1 = makeCounter(),
       },
 
       pokemonBatle = (person) => {
+        //removeElem(battle);
         visibleBlock(battle);
         const person2 = pokemons.filter(elem => !elem.change)[random(pokemons.filter(elem => !elem.change).length)],
               renderPokemon = (person, type) => {
@@ -150,5 +156,10 @@ const counterCharacter1 = makeCounter(),
 
 init ();
 
-document.querySelector('.reset').addEventListener('click', () => selectPokemon());
+document.querySelector('.reset').addEventListener('click', () => {
+    removeElem(document.querySelector('.pokemon__battle .pokemon_wrapper'));
+    removeElem(document.querySelector('control'));
+    removeElem(select);
+    selectPokemon();
+});
 document.querySelector('.exit').addEventListener('click', () => init());
