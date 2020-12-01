@@ -1,5 +1,5 @@
 import Pokemon from './Pokemon.js';
-import {renderPokemon} from './utils';
+import {renderPokemon} from './utils.js';
 
 export default class Data {
     constructor(props) {

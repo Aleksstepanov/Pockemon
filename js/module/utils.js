@@ -80,14 +80,14 @@ export const removeElem = (elem) => {
     }
 }
 
-// export const renderPokemon = (person, type) => {
-//     renderElem(`pokemon_wrapper`, 'div', null, {class: ['pokemon', `${type}`]});
-//     renderElem(`${type}`, 'span', 'Lv. 1', {class: ['lvl']});
-//     renderElem(`${type}`, 'img', null, {class: ['sprite'], src: person.img});
-//     renderElem(`${type}`, 'div', null, {class: ['details', `details_${type}`]});
-//     renderElem(`details_${type}`, 'h2', person.name, {class: ['name'], id: `name-${type}`});
-//     renderElem(`details_${type}`, 'div', null, {class: ['hp', `hp_${type}`]});
-//     renderElem(`hp_${type}`, 'div', null, {class: ['bar', `bar_${type}`]});
-//     renderElem(`bar_${type}`, 'div', null, {class: ['health', `health_${type}`], id: `progressbar-${type}`});
-//     renderElem(`hp_${type}`, 'span', `${person.hp}`, {class: ['text', `text_${type}`], id: `health-${type}`})
-// }
+export const renderPokemon = (person, type) => {
+    renderElem(`pokemon_wrapper`, 'div', null, {class: ['pokemon', `${type}`]});
+    renderElem(`${type}`, 'span', 'Lv. 1', {class: ['lvl']});
+    renderElem(`${type}`, 'img', null, {class: ['sprite'], src: person.img});
+    renderElem(`${type}`, 'div', null, {class: ['details', `details_${type}`]});
+    renderElem(`details_${type}`, 'h2', person.name, {class: ['name'], id: `name-${type}`});
+    renderElem(`details_${type}`, 'div', null, {class: ['hp', `hp_${type}`]});
+    renderElem(`hp_${type}`, 'div', null, {class: ['bar', `bar_${type}`]});
+    renderElem(`bar_${type}`, 'div', null, {class: ['health', `health_${type}`], id: `progressbar-${type}`});
+    renderElem(`hp_${type}`, 'span', `${person.hp}`, {class: ['text', `text_${type}`], id: `health-${type}`})
+}

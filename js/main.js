@@ -1,5 +1,5 @@
 import Pokemon from './module/Pokemon.js';
-//import {random, makeCounter, renderElem, visibleBlock, removeElem} from './module/utils.js';
+import {random, makeCounter, renderElem, visibleBlock, removeElem} from './module/utils.js';
 import {selectors} from './module/selectors.js';
 import Game from './module/Game.js';
 import {url} from './module/api.js';
@@ -47,11 +47,7 @@ const counterCharacter1 = makeCounter(),
                 return null;
             }
             pokemonBatle(event.target.id);
-            //event.target.classList.add('selected');
             
-            // pokemons.filter(elem => elem.name !== event.target.id).forEach(elem => elem.change = false);
-            // pokemons.find(elem => elem.name === event.target.id).change = true;
-            // pokemonBatle(pokemons.find(elem => elem.change));
         }))
       },
 
@@ -59,18 +55,7 @@ const counterCharacter1 = makeCounter(),
         //removeElem(battle);
         visibleBlock(battle);
         
-        const renderPokemon = (person, type) => {
-                renderElem(`pokemon_wrapper`, 'div', null, {class: ['pokemon', `${type}`]});
-                renderElem(`${type}`, 'span', 'Lv. 1', {class: ['lvl']});
-                renderElem(`${type}`, 'img', null, {class: ['sprite'], src: person.img});
-                renderElem(`${type}`, 'div', null, {class: ['details', `details_${type}`]});
-                renderElem(`details_${type}`, 'h2', person.name, {class: ['name'], id: `name-${type}`});
-                renderElem(`details_${type}`, 'div', null, {class: ['hp', `hp_${type}`]});
-                renderElem(`hp_${type}`, 'div', null, {class: ['bar', `bar_${type}`]});
-                renderElem(`bar_${type}`, 'div', null, {class: ['health', `health_${type}`], id: `progressbar-${type}`});
-                renderElem(`hp_${type}`, 'span', `${person.hp}`, {class: ['text', `text_${type}`], id: `health-${type}`})
-            },
-        renderControl = (person, type) => {
+        const renderControl = (person, type) => {
                 const {attacks} = person;
                 attacks.forEach((elem, index) => {
                     renderElem(`${type}-control`, 'button', `${elem.name} ${elem.maxCount}/${elem.maxCount}`, {class: ['button', 'damage', `button-${type}`, `${index}`], name: `${elem.name}`});
@@ -96,29 +81,19 @@ const counterCharacter1 = makeCounter(),
                 query: `id=${id}`,
                 typePlayer: 'character'
             }),
-            getPlayer2 = async () => {
-                const res = await fetch(`${url}?random=true`),
-                      player2 = await res.json();
-                renderPokemon(player2, 'enemy',); 
-                const enemy = new Pokemon ({
-                            name: player2.name,
-                            defaultHP: player2.hp,
-                            damageHP: player2.hp,
-                            selector: 'enemy',
-                            type: player2.type,
-                            id: player2.id,
-                            attacks: player2.attacks,
-                });
-                return enemy;
-            }
+            getPlayer2 = new Data({
+                url: url,
+                query: `random=true`,
+                typePlayer: 'enemy'
+            })
             
-            getPlayer1().
+            getPlayer1.getData().
                 then(res => {
                     renderElem('pokemon_wrapper', 'div', null, {class: ['log']});
                     return res;
                 }).
                 then(res => {
-                    return getPlayer2().then(result => {
+                    return getPlayer2.getData().then(result => {
                         const NewGame = new Game({
                             player1: res,
                             player2: result
