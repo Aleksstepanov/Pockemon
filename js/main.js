@@ -51,8 +51,8 @@ const counterCharacter1 = makeCounter(),
         }))
       },
 
-      pokemonBatle = (id) => {
-        //removeElem(battle);
+      pokemonBatle = async (id) => {
+        
         visibleBlock(battle);
         
         const renderControl = (person, type) => {
@@ -61,21 +61,6 @@ const counterCharacter1 = makeCounter(),
                     renderElem(`${type}-control`, 'button', `${elem.name} ${elem.maxCount}/${elem.maxCount}`, {class: ['button', 'damage', `button-${type}`, `${index}`], name: `${elem.name}`});
                 })
             },
-            // getPlayer1 = async () => {
-            //     const res = await fetch(`${url}?id=${id}`),
-            //           player1 = await res.json();
-            //     renderPokemon(player1, 'character');
-            //     const character = new Pokemon ({
-            //                 name: player1.name,
-            //                 defaultHP: player1.hp,
-            //                 damageHP: player1.hp,
-            //                 selector: 'character',
-            //                 type: player1.type,
-            //                 id: player1.id,
-            //                 attacks: player1.attacks,
-            //     });
-            //     return character;
-            // },
             getPlayer1 = new Data({
                 url: url,
                 query: `id=${id}`,
@@ -85,78 +70,86 @@ const counterCharacter1 = makeCounter(),
                 url: url,
                 query: `random=true`,
                 typePlayer: 'enemy'
-            })
+            });
             
-            getPlayer1.getData().
-                then(res => {
-                    renderElem('pokemon_wrapper', 'div', null, {class: ['log']});
-                    return res;
-                }).
-                then(res => {
-                    return getPlayer2.getData().then(result => {
-                        const NewGame = new Game({
-                            player1: res,
-                            player2: result
-                        });
-                        return NewGame;
-                    })
-                }).
-                then(res => {
-                    renderElem('control', 'div', null, {class: ['player-control']});
-                    renderControl(res.player1, 'player');
-                    renderElem('control', 'div', null, {class: ['enemy-control']});
-                    renderControl(res.player2, 'enemy');
-                    return res;
-                }).
-                then(res => {
-                    document.querySelector('.control').addEventListener('click', (event) => {
-                    const onClick = (person1, person2, cb, elem) => {
-                      const {name, attacks} = person1;
-                      cb();
-                      const count = elem.innerText.split('/')[1] - 1;
-                      if (count < 0) {
-                          elem.disabled = true;
-                      }
-                      else {
-                          elem.innerText = elem.innerText.split('/')[0] + '/' + count;
-                          const atack = attacks.find(item => item.name === elem.name);
-                          person2.changeHP(random(atack.maxDamage, atack.minDamage), name);
-                      }
+            const player1 = await getPlayer1.getData();
+            renderElem('pokemon_wrapper', 'div', null, {class: ['log']});
+            const player2 = await getPlayer2.getData();
+            renderElem('control', 'div', null, {class: ['player-control']});
+            renderControl(player1, 'player');
+            renderElem('control', 'div', null, {class: ['enemy-control']});
+            renderControl(player2, 'enemy');
+            
+            
+                // then(res => {
+                //     renderElem('pokemon_wrapper', 'div', null, {class: ['log']});
+                //     return res;
+                // }).
+                // then(res => {
+                //     return getPlayer2.getData().then(result => {
+                //         const NewGame = new Game({
+                //             player1: res,
+                //             player2: result
+                //         });
+                //         return NewGame;
+                //     })
+                // }).
+                // then(res => {
+                //     renderElem('control', 'div', null, {class: ['player-control']});
+                //     renderControl(res.player1, 'player');
+                //     renderElem('control', 'div', null, {class: ['enemy-control']});
+                //     renderControl(res.player2, 'enemy');
+                //     return res;
+                // }).
+                // then(res => {
+                //     document.querySelector('.control').addEventListener('click', (event) => {
+                //     const onClick = (person1, person2, cb, elem) => {
+                //       const {name, attacks} = person1;
+                //       cb();
+                //       const count = elem.innerText.split('/')[1] - 1;
+                //       if (count < 0) {
+                //           elem.disabled = true;
+                //       }
+                //       else {
+                //           elem.innerText = elem.innerText.split('/')[0] + '/' + count;
+                //           const atack = attacks.find(item => item.name === elem.name);
+                //           person2.changeHP(random(atack.maxDamage, atack.minDamage), name);
+                //       }
 
-                     };
+                //      };
 
-                     if (event.target.classList.contains('button-player')) {
-                         if (event.target.classList.contains('0')) {
-                          onClick(res.player1, res.player2, counterCharacter1, event.target);
-                         }
-                         if (event.target.classList.contains('1')) {
-                              onClick(res.player1, res.player2, counterCharacter2, event.target);
-                          }
-                          if (event.target.classList.contains('2')) {
-                              onClick(res.player1, res.player2, counterCharacter3, event.target);
-                          }
-                          if (event.target.classList.contains('3')) {
-                              onClick(res.player1, res.player2, counterCharacter4, event.target);
-                          }
-                     }
+                //      if (event.target.classList.contains('button-player')) {
+                //          if (event.target.classList.contains('0')) {
+                //           onClick(res.player1, res.player2, counterCharacter1, event.target);
+                //          }
+                //          if (event.target.classList.contains('1')) {
+                //               onClick(res.player1, res.player2, counterCharacter2, event.target);
+                //           }
+                //           if (event.target.classList.contains('2')) {
+                //               onClick(res.player1, res.player2, counterCharacter3, event.target);
+                //           }
+                //           if (event.target.classList.contains('3')) {
+                //               onClick(res.player1, res.player2, counterCharacter4, event.target);
+                //           }
+                //      }
                  
-                     if (event.target.classList.contains('button-enemy')) {
-                      if (event.target.classList.contains('0')) {
-                       onClick(res.player2, res.player1, counterEnemy1, event.target);
-                      }
-                      if (event.target.classList.contains('1')) {
-                           onClick(res.player2, res.player1, counterEnemy2, event.target);
-                       }
-                       if (event.target.classList.contains('2')) {
-                           onClick(res.player2, res.player1, counterEnemy3, event.target);
-                       }
-                       if (event.target.classList.contains('3')) {
-                           onClick(res.player2, res.player1, counterEnemy4, event.target);
-                       }
-                      }
+                //      if (event.target.classList.contains('button-enemy')) {
+                //       if (event.target.classList.contains('0')) {
+                //        onClick(res.player2, res.player1, counterEnemy1, event.target);
+                //       }
+                //       if (event.target.classList.contains('1')) {
+                //            onClick(res.player2, res.player1, counterEnemy2, event.target);
+                //        }
+                //        if (event.target.classList.contains('2')) {
+                //            onClick(res.player2, res.player1, counterEnemy3, event.target);
+                //        }
+                //        if (event.target.classList.contains('3')) {
+                //            onClick(res.player2, res.player1, counterEnemy4, event.target);
+                //        }
+                //       }
 
-                    })
-                })
+                //     })
+                // })
                 
             
             
