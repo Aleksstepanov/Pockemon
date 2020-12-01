@@ -78,6 +78,9 @@ body {
     justify-content: center;
 }
 
+.pokemon_select {
+    flex-wrap: wrap;
+}
 .pokemon__battle {
     display: none;
     flex-direction: column;

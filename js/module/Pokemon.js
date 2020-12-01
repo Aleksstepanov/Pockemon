@@ -13,6 +13,7 @@ export default class Pokemon extends Selectors {
     constructor(props) {
         super(props.selector),
         this.name = props.name,
+        this.id = props.id,
         this.type = props.type,
         this.defaultHP = props.defaultHP,
         this.damageHP = props.damageHP,

@@ -41,6 +41,7 @@ export const renderElem = (elemParent, elemChild, innerElem = null, attributes =
         attributes.src ? newElem.setAttribute('src', attributes.src) : null;
         attributes.id ? newElem.setAttribute('id', attributes.id) : null;
         attributes.name ? newElem.setAttribute('name', attributes.name) : null;
+        attributes.data ? newElem.setAttribute('data', attributes.data) : null;
     }
     if (method === 'appendChild') {
         Parent.appendChild(newElem);
