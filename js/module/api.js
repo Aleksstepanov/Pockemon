@@ -1,0 +1,1 @@
+export const url = 'https://reactmarathon-api.netlify.app/api/pokemons';
