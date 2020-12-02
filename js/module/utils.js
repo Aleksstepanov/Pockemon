@@ -5,10 +5,9 @@ export const random = (max, min = 0) => {
     return Math.ceil(Math.random() * num) + min;
 }
 
-export function makeCounter() {
-    let count = 1;
+export function makeCounter(maxCount) {
     return function() {
-      return count++;
+      return --maxCount;
     };
 }
 

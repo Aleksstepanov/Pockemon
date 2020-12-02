@@ -6,15 +6,7 @@ import {url} from './module/api.js';
 import Data from './module/Data.js';
 
 
-const counterCharacter1 = makeCounter(), 
-      counterCharacter2 = makeCounter(),
-      counterCharacter3 = makeCounter(),
-      counterCharacter4 = makeCounter(),
-      counterEnemy1 = makeCounter(),
-      counterEnemy2 = makeCounter(),
-      counterEnemy3 = makeCounter(),
-      counterEnemy4 = makeCounter(),
-      {start, select, battle} = selectors,
+const {start, select, battle} = selectors,
       
       init = () => {
         visibleBlock(start);
@@ -22,8 +14,6 @@ const counterCharacter1 = makeCounter(),
         renderElem('pokemon_start', 'button', 'Start', {class: ['button', 'start']});
         document.querySelector('.start').addEventListener('click', () => {
            fetch(url).then(res => res.json()).then(res => selectPokemon(res));
-            //pok();
-            //selectPokemon();
         })
       },
 
@@ -56,10 +46,31 @@ const counterCharacter1 = makeCounter(),
         visibleBlock(battle);
         
         const renderControl = (person, type) => {
-                const {attacks} = person;
+                const {player1, player2} = person,
+                      {attacks} = player1;
                 attacks.forEach((elem, index) => {
-                    renderElem(`${type}-control`, 'button', `${elem.name} ${elem.maxCount}/${elem.maxCount}`, {class: ['button', 'damage', `button-${type}`, `${index}`], name: `${elem.name}`});
-                })
+                    const render = new Promise ((resolve) => {
+                        renderElem(`${type}-control`, 'button', `${elem.name} ${elem.maxCount}/${elem.maxCount}`, {class: ['button', 'damage', `button-${type}`, `${index}`], name: `${elem.name}`, id: `${elem.name}`});
+                        resolve();
+                    });
+                    render.then(() => {
+                        const $btn = document.getElementById(elem.name),
+                              counter = makeCounter(elem.maxCount);
+                              
+                        $btn.addEventListener('click', async () => {
+                            const typeAttack = attacks.find((elem => elem.name === $btn.id));
+                            
+                            $btn.innerText = $btn.innerText.split('/')[0] + '/' + counter();
+                            await getPlayer1.getFire(player1.id, player2.id, typeAttack.id)
+                                 .then((res) => {
+                                    const {kick} = res;
+                                    player2.changeHP(kick.player1, player1.name);
+                                    player1.changeHP(kick.player2, player2.name);
+                                 });
+                        });
+                    })
+                });
+
             },
             getPlayer1 = new Data({
                 url: url,
@@ -72,62 +83,23 @@ const counterCharacter1 = makeCounter(),
                 typePlayer: 'enemy'
             });
             
-            const player1 = await getPlayer1.getData();
-            renderElem('pokemon_wrapper', 'div', null, {class: ['log']});
-            const player2 = await getPlayer2.getData();
-            renderElem('control', 'div', null, {class: ['player-control']});
-            renderControl(player1, 'player');
-            renderElem('control', 'div', null, {class: ['enemy-control']});
-            renderControl(player2, 'enemy');
             
-
-    document.querySelector('.control').addEventListener('click', (event) => {
-        const onClick = (person1, person2, cb, elem) => {
-        const {name, attacks} = person1;
-        cb();
-        const count = elem.innerText.split('/')[1] - 1;
-        if (count < 0) {
-            elem.disabled = true;
-        }
-        else {
-            elem.innerText = elem.innerText.split('/')[0] + '/' + count;
-            const atack = attacks.find(item => item.name === elem.name);
-            person2.changeHP(random(atack.maxDamage, atack.minDamage), name);
-        }
-             
-       };
-            
-       if (event.target.classList.contains('button-player')) {
-           if (event.target.classList.contains('0')) {
-            onClick(player1, player2, counterCharacter1, event.target);
-           }
-           if (event.target.classList.contains('1')) {
-                onClick(player1, player2, counterCharacter2, event.target);
-            }
-            if (event.target.classList.contains('2')) {
-                onClick(player1, player2, counterCharacter3, event.target);
-            }
-            if (event.target.classList.contains('3')) {
-                onClick(player1, player2, counterCharacter4, event.target);
-            }
-       }
-
-       if (event.target.classList.contains('button-enemy')) {
-        if (event.target.classList.contains('0')) {
-         onClick(player2, player1, counterEnemy1, event.target);
-        }
-        if (event.target.classList.contains('1')) {
-             onClick(player2, player1, counterEnemy2, event.target);
-         }
-         if (event.target.classList.contains('2')) {
-             onClick(player2, player1, counterEnemy3, event.target);
-         }
-         if (event.target.classList.contains('3')) {
-             onClick(player2, player1, counterEnemy4, event.target);
-         }
-        }
-        
-    })
+            await getPlayer1.getData().
+            then(res => {
+                renderElem('pokemon_wrapper', 'div', null, {class: ['log']});
+                return res;
+            }).
+            then(res => {
+                return getPlayer2.getData().then(enemy => {
+                    return new Game ({
+                        player1: res,
+                        player2: enemy
+                    })
+                })
+            }).then(res => {
+                renderElem('control', 'div', null, {class: ['player-control']});
+                renderControl(res, 'player');
+            })
     
         }       
 

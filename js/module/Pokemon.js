@@ -31,6 +31,7 @@ export default class Pokemon extends Selectors {
         this.renderProgressBar();
     }
     changeHP (count, person) {
+        console.log(person);
         const endGame = () => {
             this.damageHP = 0;
             alert(`Бедный ${this.name} проиграл!`);
