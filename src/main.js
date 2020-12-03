@@ -5,20 +5,24 @@ import {url} from './module/api.js';
 import Data from './module/Data.js';
 
 
-const {start, select, battle} = selectors,
-      
+const {start, select, battle, pokemonWrapper, control, headerControl} = selectors,
+      Play = new Data({
+        url: url,
+    }),
       init = () => {
+        headerControl.style.visibility = 'hidden';
         visibleBlock(start);
         removeElem(start);
         renderElem('pokemon_start', 'button', 'Start', {class: ['button', 'start']});
-        document.querySelector('.start').addEventListener('click', () => {
-           fetch(url).then(res => res.json()).then(res => selectPokemon(res));
+        document.querySelector('.start').addEventListener('click', async () => {
+            Play.getPokemons().then(res => selectPokemon(res));
         })
       },
 
       selectPokemon = (pokemons) => {
         visibleBlock(select);
         removeElem(select);
+        headerControl.style.visibility = 'visible';
         pokemons.forEach(elem => {
             renderElem('pokemon_select', 'div', null, {class: ['pokemon', `${elem.name}`]})
             renderElem(`${elem.name}`, 'img', null, {class: ['sprite', 'pokemon_select_img', `${elem.name}`], src: elem.img, id: elem.id, name: 'pokemon'});
@@ -41,7 +45,8 @@ const {start, select, battle} = selectors,
       },
 
       pokemonBatle = async (id) => {
-        
+        removeElem(pokemonWrapper);
+        removeElem(control);
         visibleBlock(battle);
         
         const renderControl = (person, type) => {
@@ -62,6 +67,9 @@ const {start, select, battle} = selectors,
                             $btn.innerText = $btn.innerText.split('/')[0] + '/' + counter();
                             await getPlayer1.getFire(player1.id, player2.id, typeAttack.id)
                                  .then((res) => {
+                                    if (player2.damageHP <= 0) {
+                                        pokemonBatle(player1.id);
+                                    }
                                     const {kick} = res;
                                     player2.changeHP(kick.player1, player1.name);
                                     player1.changeHP(kick.player2, player2.name);
@@ -105,10 +113,7 @@ const {start, select, battle} = selectors,
 init ();
 
 document.querySelector('.reset').addEventListener('click', () => {
-    removeElem(document.querySelector('.pokemon__battle .pokemon_wrapper'));
-    removeElem(document.querySelector('control'));
-    removeElem(select);
-    selectPokemon();
+    Play.getPokemons().then(res => selectPokemon(res));
 });
 document.querySelector('.exit').addEventListener('click', () => init())
       

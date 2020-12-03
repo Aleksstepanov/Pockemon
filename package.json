@@ -4,7 +4,8 @@
   "description": "pokemon game",
   "main": "main.js",
   "scripts": {
-    "start": "webpack-dev-server"
+    "start": "webpack-dev-server",
+    "build": "webpack"
   },
   "repository": {
     "type": "git",

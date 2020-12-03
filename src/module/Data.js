@@ -7,6 +7,11 @@ export default class Data {
         this.query = props.query,
         this.typePlayer = props.typePlayer
     }
+    getPokemons = async () => {
+        const res = await fetch(this.url),
+              pokemons = await res.json();
+        return pokemons;
+    }
     getData = async () => {
         const res = this.query ? await fetch(`${this.url}?${this.query}`) : await fetch(`${this.url}`),
               data = await res.json();
@@ -24,7 +29,6 @@ export default class Data {
     getFire = async (idPlayer1, idPlayer2, idAttack) => {
         const res = await fetch(`https://reactmarathon-api.netlify.app/api/fight?player1id=${idPlayer1}&attackId=${idAttack}&player2id=${idPlayer2}`),
               kick = await res.json();
-        console.log(kick);
         return kick;
     }
 }

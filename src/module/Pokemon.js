@@ -31,11 +31,10 @@ export default class Pokemon extends Selectors {
         this.renderProgressBar();
     }
     changeHP (count, person) {
-        console.log(person);
         const endGame = () => {
             this.damageHP = 0;
             alert(`Бедный ${this.name} проиграл!`);
-            Object.values(document.querySelectorAll('.button')).forEach(elem => elem.disabled = true);
+            Object.values(document.querySelectorAll('.damage')).forEach(elem => elem.disabled = true);
         }
         this.damageHP < count ? endGame() : this.damageHP -= count;
 
