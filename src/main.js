@@ -1,5 +1,4 @@
-import Pokemon from './module/Pokemon.js';
-import {random, makeCounter, renderElem, visibleBlock, removeElem} from './module/utils.js';
+import {makeCounter, renderElem, visibleBlock, removeElem} from './module/utils.js';
 import {selectors} from './module/selectors.js';
 import Game from './module/Game.js';
 import {url} from './module/api.js';
