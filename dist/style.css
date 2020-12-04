@@ -80,6 +80,7 @@ body {
 
 .pokemon_select {
     flex-wrap: wrap;
+    justify-content: center;
 }
 .pokemon__battle {
     display: none;
